@@ -1,11 +1,3 @@
-<!--
-/**
- * @fileoverview TaskListHeader component
- * @license MIT
- * @author Rafal Pospiech <neuronet.io@gmail.com>
- * @package GanttElastic
- */
--->
 <template>
   <div
     class="gantt-elastic__task-list-header"

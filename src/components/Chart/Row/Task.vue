@@ -68,6 +68,7 @@
       ></polygon>
       <progress-bar :task="task" :clip-path="'url(#' + clipPathId + ')'"></progress-bar>
     </svg>
+    <!-- todo -->
     <chart-text :task="task" v-if="root.state.options.chart.text.display"></chart-text>
   </g>
 </template>

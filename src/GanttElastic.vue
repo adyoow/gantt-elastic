@@ -1,15 +1,11 @@
-<!--
-/**
- * @fileoverview GanttElastic component
- * @license MIT
- * @author Rafal Pospiech <neuronet.io@gmail.com>
- * @package GanttElastic
- */
--->
 <template>
   <div class="gantt-elastic" style="width:100%">
     <slot name="header"></slot>
-    <main-view ref="mainView"></main-view>
+    <main-view ref="mainView">
+      <template v-for="column in getTaskListColumnsSilently" v-slot:[column.customSlot]="scopeSlot">
+        <slot v-if="column.customSlot" :name="column.customSlot" :row="scopeSlot.row" :column="scopeSlot.column" />
+      </template>
+    </main-view>
     <slot name="footer"></slot>
   </div>
 </template>
@@ -48,7 +44,7 @@ function getOptions(userOptions) {
       header: {}
     },
     taskMapping: {
-      //*
+      // todo
       id: 'id',
       start: 'start',
       label: 'label',
@@ -814,7 +810,9 @@ const GanttElastic = {
      * @returns {string} html svg image of gantt
      */
     getSVG() {
-      return this.state.options.mainView.outerHTML;
+      // todo
+      return document.querySelector('.gantt-elastic__main-view');
+      // return this.state.options.mainView.outerHTML;
     },
 
     /**
@@ -1337,18 +1335,19 @@ const GanttElastic = {
       }
       this.state.options.times.firstTaskTime = firstTaskTime;
       this.state.options.times.lastTaskTime = lastTaskTime;
-      this.state.options.times.firstTime = dayjs(firstTaskTime)
-        .locale(this.state.options.locale.name)
-        .startOf('day')
-        .subtract(this.state.options.scope.before, 'days')
-        .startOf('day')
-        .valueOf();
-      this.state.options.times.lastTime = dayjs(lastTaskTime)
-        .locale(this.state.options.locale.name)
-        .endOf('day')
-        .add(this.state.options.scope.after, 'days')
-        .endOf('day')
-        .valueOf();
+      // todo
+      // this.state.options.times.firstTime = dayjs(firstTaskTime)
+      //   .locale(this.state.options.locale.name)
+      //   .startOf('day')
+      //   .subtract(this.state.options.scope.before, 'days')
+      //   .startOf('day')
+      //   .valueOf();
+      // this.state.options.times.lastTime = dayjs(lastTaskTime)
+      //   .locale(this.state.options.locale.name)
+      //   .endOf('day')
+      //   .add(this.state.options.scope.after, 'days')
+      //   .endOf('day')
+      //   .valueOf();
     },
 
     /**
@@ -1444,11 +1443,18 @@ const GanttElastic = {
     },
 
     /**
+     * Get columns silently
+     */
+    getTaskListColumnsSilently() {
+      return this.state.options.taskList.columns.filter(c => c.display);
+    },
+
+    /**
      * Get columns and compute dimensions on the fly
      */
     getTaskListColumns() {
       this.calculateTaskListColumnsDimensions();
-      return this.state.options.taskList.columns;
+      return this.getTaskListColumnsSilently;
     },
 
     /**

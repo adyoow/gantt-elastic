@@ -1,11 +1,3 @@
-<!--
-/**
- * @fileoverview TaskList component
- * @license MIT
- * @author Rafal Pospiech <neuronet.io@gmail.com>
- * @package GanttElastic
- */
--->
 <template>
   <div
     class="gantt-elastic__task-list-wrapper"
@@ -20,7 +12,13 @@
         ref="taskListItems"
         :style="{ ...root.style['task-list-items'], height: root.state.options.rowsHeight + 'px' }"
       >
-        <task-list-item v-for="task in root.visibleTasks" :key="task.id" :task="task"></task-list-item>
+        <task-list-item v-for="task in root.visibleTasks" :key="task.id" :task="task">
+          <template v-for="column in root.getTaskListColumnsSilently">
+            <template :slot="column.customSlot">
+              <slot v-if="column.customSlot" :name="column.customSlot" :row="task" :column="column" />
+            </template>
+          </template>
+        </task-list-item>
       </div>
     </div>
   </div>

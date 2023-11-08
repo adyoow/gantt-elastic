@@ -109,6 +109,7 @@ export default {
         this.root.state.options.times.firstTime,
         this.root.state.options.times.lastTime
       );
+      // todo
       if (monthsCount === 1) {
         for (let formatName of formatNames) {
           if (this.root.state.options.calendar.month.maxWidths[formatName] + additionalSpace <= fullWidth) {
@@ -238,6 +239,7 @@ export default {
      *
      * @returns {array}
      */
+    // todo  优化渲染
     generateMonths() {
       let months = [];
       if (!this.root.state.options.calendar.month.display) {
@@ -327,9 +329,9 @@ export default {
 
   computed: {
     dates() {
-      const hours = this.generateHours();
-      const days = this.generateDays();
-      const months = this.generateMonths();
+      const hours = this.generateHours() || []
+      const days = this.generateDays() || []
+      const months = this.generateMonths() || []
       const allDates = { hours, days, months };
       this.calculateCalendarDimensions(allDates);
       return allDates;

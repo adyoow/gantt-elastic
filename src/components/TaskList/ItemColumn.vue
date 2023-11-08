@@ -1,51 +1,46 @@
-<!--
-/**
- * @fileoverview ItemColumn component
- * @license MIT
- * @author Rafal Pospiech <neuronet.io@gmail.com>
- * @package GanttElastic
- */
--->
 <template>
   <div class="gantt-elastic__task-list-item-column" :style="itemColumnStyle">
     <div class="gantt-elastic__task-list-item-value-wrapper" :style="wrapperStyle">
       <slot></slot>
       <div class="gantt-elastic__task-list-item-value-container" :style="containerStyle">
-        <div
-          v-if="!html"
-          class="gantt-elastic__task-list-item-value"
-          :style="valueStyle"
-          @click="emitEvent('click', $event)"
-          @mouseenter="emitEvent('mouseenter', $event)"
-          @mouseover="emitEvent('mouseover', $event)"
-          @mouseout="emitEvent('mouseout', $event)"
-          @mousemove="emitEvent('mousemove', $event)"
-          @mousedown="emitEvent('mousedown', $event)"
-          @mouseup="emitEvent('mouseup', $event)"
-          @mousewheel="emitEvent('mousewheel', $event)"
-          @touchstart="emitEvent('touchstart', $event)"
-          @touchmove="emitEvent('touchmove', $event)"
-          @touchend="emitEvent('touchend', $event)"
-        >
-          {{ value }}
-        </div>
-        <div
-          v-else
-          class="gantt-elastic__task-list-item-value"
-          :style="valueStyle"
-          @click="emitEvent('click', $event)"
-          @mouseenter="emitEvent('mouseenter', $event)"
-          @mouseover="emitEvent('mouseover', $event)"
-          @mouseout="emitEvent('mouseout', $event)"
-          @mousemove="emitEvent('mousemove', $event)"
-          @mousedown="emitEvent('mousedown', $event)"
-          @mouseup="emitEvent('mouseup', $event)"
-          @mousewheel="emitEvent('mousewheel', $event)"
-          @touchstart="emitEvent('touchstart', $event)"
-          @touchmove="emitEvent('touchmove', $event)"
-          @touchend="emitEvent('touchend', $event)"
-          v-html="value"
-        ></div>
+        <slot v-if="column.customSlot" :name="column.customSlot" />
+        <template v-else>
+          <div
+            v-if="!html"
+            class="gantt-elastic__task-list-item-value"
+            :style="valueStyle"
+            @click="emitEvent('click', $event)"
+            @mouseenter="emitEvent('mouseenter', $event)"
+            @mouseover="emitEvent('mouseover', $event)"
+            @mouseout="emitEvent('mouseout', $event)"
+            @mousemove="emitEvent('mousemove', $event)"
+            @mousedown="emitEvent('mousedown', $event)"
+            @mouseup="emitEvent('mouseup', $event)"
+            @mousewheel="emitEvent('mousewheel', $event)"
+            @touchstart="emitEvent('touchstart', $event)"
+            @touchmove="emitEvent('touchmove', $event)"
+            @touchend="emitEvent('touchend', $event)"
+          >
+            {{ value }}
+          </div>
+          <div
+            v-else
+            class="gantt-elastic__task-list-item-value"
+            :style="valueStyle"
+            @click="emitEvent('click', $event)"
+            @mouseenter="emitEvent('mouseenter', $event)"
+            @mouseover="emitEvent('mouseover', $event)"
+            @mouseout="emitEvent('mouseout', $event)"
+            @mousemove="emitEvent('mousemove', $event)"
+            @mousedown="emitEvent('mousedown', $event)"
+            @mouseup="emitEvent('mouseup', $event)"
+            @mousewheel="emitEvent('mousewheel', $event)"
+            @touchstart="emitEvent('touchstart', $event)"
+            @touchmove="emitEvent('touchmove', $event)"
+            @touchend="emitEvent('touchend', $event)"
+            v-html="value"
+          ></div>
+        </template>
       </div>
     </div>
   </div>
@@ -70,6 +65,7 @@ export default {
       if (typeof this.column.events !== 'undefined' && typeof this.column.events[eventName] === 'function') {
         this.column.events[eventName]({ event, data: this.task, column: this.column });
       }
+      // todo
       this.root.$emit(`taskList-${this.task.type}-${eventName}`, { event, data: this.task, column: this.column });
     }
   },

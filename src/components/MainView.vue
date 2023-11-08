@@ -1,11 +1,3 @@
-<!--
-/**
- * @fileoverview MainView component
- * @license MIT
- * @author Rafal Pospiech <neuronet.io@gmail.com>
- * @package GanttElastic
- */
--->
 <template>
   <div class="gantt-elastic__main-view" :style="{ ...root.style['main-view'] }">
     <div
@@ -37,7 +29,16 @@
             }"
             v-show="root.state.options.taskList.display"
           >
-            <task-list></task-list>
+            <task-list>
+              <template v-for="column in root.getTaskListColumnsSilently" v-slot:[column.customSlot]="scopeSlot">
+                <slot
+                  v-if="column.customSlot"
+                  :name="column.customSlot"
+                  :row="scopeSlot.row"
+                  :column="scopeSlot.column"
+                />
+              </template>
+            </task-list>
           </div>
           <div
             class="gantt-elastic__main-view-container"
